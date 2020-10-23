@@ -21,7 +21,24 @@ class Events {
     }
 
     events() {
-        document.querySelector('body')?.addEventListener('click',(e)=> {
+        document.querySelector('body')?.addEventListener('click', (e) => {
+
+            let targe: HTMLInputElement = e.target as HTMLInputElement;
+            let name: string = targe.getAttribute('name') as string;
+            let id: string = targe.getAttribute('id') as string;
+            try {
+                if (name === 'edit' && id) {
+                    this.edit(Number(id));
+                } else if (name === 'trash' && id) {
+                    this.delete(Number(id));
+                }else if (name === 'add') {
+                    this.write();
+                }
+
+            } catch (error) {
+
+            }
+
 
         });
     }
@@ -34,7 +51,26 @@ class Events {
 
 
     write() {
+        let num = 0;
+        let block = true;
+        while (block) {
+            block = false;
+            for (const item of labors) {
+                if (item.id === num) {
+                    num++;
+                }
+            }
+            for (const item of labors) {
+                if (item.id === num) {
+                   block = true;
+                }
+            }
+            
+        }
 
+        let obNew:Labor = {text:'', date: this.#stored.getDate(),id:num};
+        this.#stored.write(obNew);
+        this.#print.printNew(obNew);
 
     }
 
@@ -44,15 +80,16 @@ class Events {
         this.#print.travel('', labors);
     }
 
-    delete() {
-
-
+    delete(id: number) {
+        this.#stored.delete(id, labors);
+        this.read();
     }
 
 
-    edit() {
-
-
+    edit(id: number) {
+       let text:string = prompt('Introduce el texto deseado') as string;
+        this.#stored.edit(id, text, labors);
+        this.read();
     }
 
 
