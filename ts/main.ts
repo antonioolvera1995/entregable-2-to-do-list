@@ -2,7 +2,8 @@
 
 interface Labor {
     date: string,
-    text: string
+    text: string,
+    id:number
 }
 let labors: Labor[] = [];
 
@@ -14,9 +15,17 @@ class Events {
         this.#stored = new Stored();
         this.#print = new Print();
         labors = this.#stored.read();
-        console.log(labors); //-----------------------eliminar----------------------
+        this.#print.travel('',labors);
+
+
         
-        
+        //---pruebas
+
+        // this.#stored.edit(1,'nuevo texto', labors)
+        // this.#stored.write({date:'eee',text:'mi texto'});
+
+        //-------
+        // console.log(labors); //-----------------------eliminar----------------------
     }
 
     search() {

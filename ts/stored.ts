@@ -36,10 +36,10 @@ class Stored {
       if (text && text.length > 2) {
         laborsTemp = JSON.parse(text);
       } else {
-        laborsTemp = [{ date: this.getDate(), text: '' }];
+        laborsTemp = [{ date: this.getDate(), text: '', id:0}];
       }
     } catch (error) {
-      laborsTemp = [{ date: this.getDate(), text: '' }];
+      laborsTemp = [{ date: this.getDate(), text: '', id:0 }];
     }
     return laborsTemp;
   }
@@ -47,10 +47,10 @@ class Stored {
 
 
 
-  delete(position: number, laborTemp: Labor[]): Labor[] {
+  delete(id: number, laborTemp: Labor[]): Labor[] {
     let laborsClear: Labor[] = [];
     for (let i = 0; i < laborTemp.length; i++) {
-      if (position === i) {
+      if (laborTemp[i].id === id) {
       } else {
         const element = laborTemp[i];
         laborsClear.push(element);
@@ -58,14 +58,28 @@ class Stored {
 
     }
     this.writeAll(laborsClear);
-    return laborsClear
+    return laborsClear;
   }
 
 
-edit(){
+  edit(id: number, text:string,  laborTemp: Labor[]):Labor[] {
 
+    let laborsEdit: Labor[] = [];
+    for (let i = 0; i < laborTemp.length; i++) {
+      if (laborTemp[i].id === id) {
+        const element = laborTemp[i];
+        element.date = this.getDate();
+        element.text = text;
+        laborsEdit.push(element);
+      } else {
+        const element = laborTemp[i];
+        laborsEdit.push(element);
+      }
 
-}
+    }
+    this.writeAll(laborsEdit);
+    return laborsEdit;
+  }
 
 
 

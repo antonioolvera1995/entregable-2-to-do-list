@@ -21,7 +21,7 @@ class Events {
         __classPrivateFieldSet(this, _stored, new Stored());
         __classPrivateFieldSet(this, _print, new Print());
         labors = __classPrivateFieldGet(this, _stored).read();
-        console.log(labors);
+        __classPrivateFieldGet(this, _print).travel('', labors);
     }
     search() {
     }
