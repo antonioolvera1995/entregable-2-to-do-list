@@ -20,17 +20,24 @@ class Print {
     print(laborsPrint: Labor[]) {
         let ul:HTMLInputElement = document.getElementById('list') as HTMLInputElement;
         ul.innerHTML = '';
+        let lista:string = '';
 
         //-------Modificar cuando termine html-------
         for (let i = 0; i < laborsPrint.length; i++) {
             const element = laborsPrint[i];
 
-            let li = document.createElement('div');
-            li.classList.add('div-block')
-            let nod = document.createTextNode(element.text);
-            li.appendChild(nod);
-            ul?.appendChild(li);
+            lista += `<div class="div-block">
+            <div class="div-texts">
+                <div class="div-text-1">${element.date}</div>
+                <div class="div-text-2">${element.text}</div>
+            </div>
+            <div class="div-edit"><i class="fa fa-pencil fa-3x shadow" aria-hidden="true"></i></i></div>
+            <div class="div-trash"><i class="fa fa-trash fa-3x shadow" aria-hidden="true"></i></div>
+        </div>`;
+            
         }
+
+        ul.innerHTML = lista;
         
     }
 

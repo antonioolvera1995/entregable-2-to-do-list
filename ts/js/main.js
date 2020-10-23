@@ -22,6 +22,12 @@ class Events {
         __classPrivateFieldSet(this, _print, new Print());
         this.read();
         this.search();
+        this.events();
+    }
+    events() {
+        var _a;
+        (_a = document.querySelector('body')) === null || _a === void 0 ? void 0 : _a.addEventListener('click', (e) => {
+        });
     }
     search() {
         let searcher = document.getElementById('input-searcher');
@@ -36,6 +42,8 @@ class Events {
         __classPrivateFieldGet(this, _print).travel('', labors);
     }
     delete() {
+    }
+    edit() {
     }
 }
 _stored = new WeakMap(), _print = new WeakMap();

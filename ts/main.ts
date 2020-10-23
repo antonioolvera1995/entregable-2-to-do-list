@@ -3,7 +3,7 @@
 interface Labor {
     date: string,
     text: string,
-    id:number
+    id: number
 }
 let labors: Labor[] = [];
 
@@ -16,20 +16,18 @@ class Events {
         this.#print = new Print();
         this.read();
         this.search();
+        this.events();
 
-
-        //---pruebas
-
-        // this.#stored.edit(1,'nuevo texto', labors)
-        // this.#stored.write({date:'eee',text:'mi texto'});
-
-        //-------
-        // console.log(labors); //-----------------------eliminar----------------------
     }
 
+    events() {
+        document.querySelector('body')?.addEventListener('click',(e)=> {
+
+        });
+    }
     search() {
         let searcher = <HTMLInputElement>document.getElementById('input-searcher');
-        searcher?.addEventListener('keyup',()=>{
+        searcher?.addEventListener('keyup', () => {
             this.#print.travel(searcher?.value, labors);
         });
     }
@@ -43,8 +41,7 @@ class Events {
 
     read() {
         labors = this.#stored.read();
-        this.#print.travel('',labors);
-
+        this.#print.travel('', labors);
     }
 
     delete() {
@@ -52,6 +49,11 @@ class Events {
 
     }
 
+
+    edit() {
+
+
+    }
 
 
 }
