@@ -14,11 +14,10 @@ class Events {
     constructor() {
         this.#stored = new Stored();
         this.#print = new Print();
-        labors = this.#stored.read();
-        this.#print.travel('',labors);
+        this.read();
+        this.search();
 
 
-        
         //---pruebas
 
         // this.#stored.edit(1,'nuevo texto', labors)
@@ -29,7 +28,10 @@ class Events {
     }
 
     search() {
-
+        let searcher = <HTMLInputElement>document.getElementById('input-searcher');
+        searcher?.addEventListener('keyup',()=>{
+            this.#print.travel(searcher?.value, labors);
+        });
     }
 
 
@@ -41,7 +43,7 @@ class Events {
 
     read() {
         labors = this.#stored.read();
-
+        this.#print.travel('',labors);
 
     }
 

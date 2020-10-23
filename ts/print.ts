@@ -18,7 +18,20 @@ class Print {
     }
 
     print(laborsPrint: Labor[]) {
+        let ul:HTMLInputElement = document.getElementById('list') as HTMLInputElement;
+        ul.innerHTML = '';
 
+        //-------Modificar cuando termine html-------
+        for (let i = 0; i < laborsPrint.length; i++) {
+            const element = laborsPrint[i];
+
+            let li = document.createElement('div');
+            li.classList.add('div-block')
+            let nod = document.createTextNode(element.text);
+            li.appendChild(nod);
+            ul?.appendChild(li);
+        }
+        
     }
 
     travelColor() {

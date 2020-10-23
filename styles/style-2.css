@@ -1,0 +1,24 @@
+
+.div-block{
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: center;
+    width: 80%;
+    min-height: 5em;
+    height: auto;
+    background-color: black;
+    background-color: blanchedalmond;
+    margin: 0.5em;
+border-radius: 1em;
+    
+}
+
+.div-block:first-child{
+    margin-top: 3em;
+}
+/* ----- */
+
+.div-texts{
+
+}

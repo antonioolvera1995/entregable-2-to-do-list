@@ -17,6 +17,16 @@ class Print {
         this.print(laborsPrint);
     }
     print(laborsPrint) {
+        let ul = document.getElementById('list');
+        ul.innerHTML = '';
+        for (let i = 0; i < laborsPrint.length; i++) {
+            const element = laborsPrint[i];
+            let li = document.createElement('div');
+            li.classList.add('div-block');
+            let nod = document.createTextNode(element.text);
+            li.appendChild(nod);
+            ul === null || ul === void 0 ? void 0 : ul.appendChild(li);
+        }
     }
     travelColor() {
     }

@@ -20,15 +20,20 @@ class Events {
         _print.set(this, void 0);
         __classPrivateFieldSet(this, _stored, new Stored());
         __classPrivateFieldSet(this, _print, new Print());
-        labors = __classPrivateFieldGet(this, _stored).read();
-        __classPrivateFieldGet(this, _print).travel('', labors);
+        this.read();
+        this.search();
     }
     search() {
+        let searcher = document.getElementById('input-searcher');
+        searcher === null || searcher === void 0 ? void 0 : searcher.addEventListener('keyup', () => {
+            __classPrivateFieldGet(this, _print).travel(searcher === null || searcher === void 0 ? void 0 : searcher.value, labors);
+        });
     }
     write() {
     }
     read() {
         labors = __classPrivateFieldGet(this, _stored).read();
+        __classPrivateFieldGet(this, _print).travel('', labors);
     }
     delete() {
     }
