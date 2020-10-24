@@ -17,10 +17,10 @@ class Print {
     constructor() {
         _numberColor.set(this, 0);
     }
-    travel(search, laborsTemp) {
+    travelSearch(search, laborsTemp) {
         let laborsPrint = [];
         if (search === '') {
-            laborsPrint = laborsTemp;
+            this.printSearch(laborsTemp);
         }
         else {
             for (let i = 0; i < laborsTemp.length; i++) {
@@ -29,8 +29,20 @@ class Print {
                     laborsPrint.push(element);
                 }
             }
+            this.printSearch(laborsPrint);
         }
-        this.print(laborsPrint);
+    }
+    printSearch(laborsPrint) {
+        for (let i = 0; i < labors.length; i++) {
+            const element = labors[i];
+            let div = document.getElementById(`block-in-${element.id}`);
+            div.style.display = 'none';
+        }
+        for (let i = 0; i < laborsPrint.length; i++) {
+            const element = laborsPrint[i];
+            let div = document.getElementById(`block-in-${element.id}`);
+            div.style.display = 'flex';
+        }
     }
     print(laborsPrint) {
         let ul = document.getElementById('list');
@@ -38,7 +50,7 @@ class Print {
         let lista = '';
         for (let i = 0; i < laborsPrint.length; i++) {
             const element = laborsPrint[i];
-            lista += `<div style="background-color:${this.travelColor()} ;" class="div-block">
+            lista += `<div id="block-in-${element.id}" style="background-color:${this.travelColor()} ;" class="div-block">
             <div class="div-texts">
                 <div class="div-text-1">${element.date}</div>
                 <textarea id="textarea-${element.id}" disabled class="div-text-2">${element.text}</textarea>
@@ -54,6 +66,7 @@ class Print {
         let ul = document.getElementById('list');
         let ul1 = document.createElement('div');
         ul1.classList.add('div-block');
+        ul1.setAttribute('id', `block-in-${laborsPrint.id}`);
         ul1.style.backgroundColor = `${this.travelColor()}`;
         __classPrivateFieldSet(this, _numberColor, +__classPrivateFieldGet(this, _numberColor) + 1);
         ul1.innerHTML = '';

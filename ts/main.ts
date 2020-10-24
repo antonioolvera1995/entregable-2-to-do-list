@@ -52,7 +52,7 @@ class Events {
         let searcher = <HTMLInputElement>document.getElementById('input-searcher');
         searcher?.addEventListener('keyup', () => {
             if (!this.#blockEdit) {
-                this.#print.travel(searcher?.value.toLocaleLowerCase(), labors);
+                this.#print.travelSearch(searcher?.value.toLocaleLowerCase(), labors);
             }
         });
     }
@@ -64,12 +64,12 @@ class Events {
         while (block) {
             block = false;
             for (const item of labors) {
-                if (item.id === num) {
+                if (item.id >= num) {
                     num++;
                 }
             }
             for (const item of labors) {
-                if (item.id === num) {
+                if (item.id >= num) {
                     block = true;
                 }
             }
@@ -85,12 +85,13 @@ class Events {
 
     read() {
         labors = this.#stored.read();
-        this.#print.travel('', labors);
+        this.#print.print( labors);
     }
 
     delete(id: number) {
-        this.#stored.delete(id, labors);
-        this.read();
+        let div: HTMLInputElement = document.getElementById(`block-in-${id}`) as HTMLInputElement;
+        div.remove();
+        labors = this.#stored.delete(id, labors);
     }
 
 
@@ -116,14 +117,14 @@ class Events {
             if (!block) {
 
                 this.#blockEdit = false;
-                   let text:string = textarea.value;
-                    this.#stored.edit(id, text, labors);
+                let text: string = textarea.value;
+                this.#stored.edit(id, text, labors);
 
-                    targe.classList.add('fa-pencil');
-                    targe.classList.remove('fa-check');
-                    textarea.disabled = true;
-                    textarea.blur();
-                    // this.read();
+                targe.classList.add('fa-pencil');
+                targe.classList.remove('fa-check');
+                textarea.disabled = true;
+                textarea.blur();
+                // this.read();
             }
 
 

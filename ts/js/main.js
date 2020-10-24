@@ -54,7 +54,7 @@ class Events {
         let searcher = document.getElementById('input-searcher');
         searcher === null || searcher === void 0 ? void 0 : searcher.addEventListener('keyup', () => {
             if (!__classPrivateFieldGet(this, _blockEdit)) {
-                __classPrivateFieldGet(this, _print).travel(searcher === null || searcher === void 0 ? void 0 : searcher.value.toLocaleLowerCase(), labors);
+                __classPrivateFieldGet(this, _print).travelSearch(searcher === null || searcher === void 0 ? void 0 : searcher.value.toLocaleLowerCase(), labors);
             }
         });
     }
@@ -64,12 +64,12 @@ class Events {
         while (block) {
             block = false;
             for (const item of labors) {
-                if (item.id === num) {
+                if (item.id >= num) {
                     num++;
                 }
             }
             for (const item of labors) {
-                if (item.id === num) {
+                if (item.id >= num) {
                     block = true;
                 }
             }
@@ -80,11 +80,12 @@ class Events {
     }
     read() {
         labors = __classPrivateFieldGet(this, _stored).read();
-        __classPrivateFieldGet(this, _print).travel('', labors);
+        __classPrivateFieldGet(this, _print).print(labors);
     }
     delete(id) {
-        __classPrivateFieldGet(this, _stored).delete(id, labors);
-        this.read();
+        let div = document.getElementById(`block-in-${id}`);
+        div.remove();
+        labors = __classPrivateFieldGet(this, _stored).delete(id, labors);
     }
     edit(id, targe) {
         let textarea = document.getElementById(`textarea-${id}`);
