@@ -106,6 +106,7 @@ class Events {
     edit(id, targe) {
         let textarea = document.getElementById(`textarea-${id}`);
         if (!__classPrivateFieldGet(this, _blockEdit)) {
+            __classPrivateFieldSet(this, _blockReveal, true);
             __classPrivateFieldSet(this, _blockEdit, true);
             targe.classList.remove('fa-pencil');
             targe.classList.add('fa-check');
@@ -123,6 +124,7 @@ class Events {
                 }
             }
             if (!block) {
+                __classPrivateFieldSet(this, _blockReveal, false);
                 __classPrivateFieldSet(this, _blockEdit, false);
                 let text = textarea.value;
                 __classPrivateFieldGet(this, _stored).edit(id, text, labors);

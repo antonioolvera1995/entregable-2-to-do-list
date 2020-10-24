@@ -120,6 +120,7 @@ class Events {
 
         let textarea: HTMLInputElement = document.getElementById(`textarea-${id}`) as HTMLInputElement;
         if (!this.#blockEdit) {
+            this.#blockReveal = true;
             this.#blockEdit = true;
             targe.classList.remove('fa-pencil');
             targe.classList.add('fa-check');
@@ -139,7 +140,7 @@ class Events {
             }
 
             if (!block) {
-
+                this.#blockReveal = false;
                 this.#blockEdit = false;
                 let text: string = textarea.value;
                 this.#stored.edit(id, text, labors);
