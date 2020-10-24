@@ -29,6 +29,10 @@ class Stored {
 
   read(): Labor[] {
 
+    let search:HTMLInputElement = <HTMLInputElement>document.getElementById('input-searcher');
+    search.blur();
+    search.value = '';
+    
     let laborsTemp: Labor[] = [];
     try {
 

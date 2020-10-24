@@ -22,6 +22,9 @@ class Stored {
         }
     }
     read() {
+        let search = document.getElementById('input-searcher');
+        search.blur();
+        search.value = '';
         let laborsTemp = [];
         try {
             let text = localStorage.getItem(`labors`);

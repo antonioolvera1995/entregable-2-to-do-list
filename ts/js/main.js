@@ -12,12 +12,13 @@ var __classPrivateFieldGet = (this && this.__classPrivateFieldGet) || function (
     }
     return privateMap.get(receiver);
 };
-var _stored, _print;
+var _stored, _print, _blockEdit;
 let labors = [];
 class Events {
     constructor() {
         _stored.set(this, void 0);
         _print.set(this, void 0);
+        _blockEdit.set(this, false);
         __classPrivateFieldSet(this, _stored, new Stored());
         __classPrivateFieldSet(this, _print, new Print());
         this.read();
@@ -32,13 +33,17 @@ class Events {
             let id = targe.getAttribute('id');
             try {
                 if (name === 'edit' && id) {
-                    this.edit(Number(id));
+                    this.edit(Number(id), targe);
                 }
                 else if (name === 'trash' && id) {
-                    this.delete(Number(id));
+                    if (!__classPrivateFieldGet(this, _blockEdit)) {
+                        this.delete(Number(id));
+                    }
                 }
                 else if (name === 'add') {
-                    this.write();
+                    if (!__classPrivateFieldGet(this, _blockEdit)) {
+                        this.write();
+                    }
                 }
             }
             catch (error) {
@@ -48,7 +53,9 @@ class Events {
     search() {
         let searcher = document.getElementById('input-searcher');
         searcher === null || searcher === void 0 ? void 0 : searcher.addEventListener('keyup', () => {
-            __classPrivateFieldGet(this, _print).travel(searcher === null || searcher === void 0 ? void 0 : searcher.value, labors);
+            if (!__classPrivateFieldGet(this, _blockEdit)) {
+                __classPrivateFieldGet(this, _print).travel(searcher === null || searcher === void 0 ? void 0 : searcher.value, labors);
+            }
         });
     }
     write() {
@@ -79,11 +86,30 @@ class Events {
         __classPrivateFieldGet(this, _stored).delete(id, labors);
         this.read();
     }
-    edit(id) {
-        let text = prompt('Introduce el texto deseado');
-        __classPrivateFieldGet(this, _stored).edit(id, text, labors);
-        this.read();
+    edit(id, targe) {
+        let textarea = document.getElementById(`textarea-${id}`);
+        if (!__classPrivateFieldGet(this, _blockEdit)) {
+            __classPrivateFieldSet(this, _blockEdit, true);
+            targe.classList.remove('fa-pencil');
+            targe.classList.add('fa-check');
+            textarea.disabled = false;
+            textarea.focus();
+        }
+        else {
+            let block = true;
+            for (const item of targe.classList) {
+                if (item === 'fa-check') {
+                    block = false;
+                }
+            }
+            if (!block) {
+                __classPrivateFieldSet(this, _blockEdit, false);
+                let text = textarea.value;
+                __classPrivateFieldGet(this, _stored).edit(id, text, labors);
+                this.read();
+            }
+        }
     }
 }
-_stored = new WeakMap(), _print = new WeakMap();
+_stored = new WeakMap(), _print = new WeakMap(), _blockEdit = new WeakMap();
 new Events();

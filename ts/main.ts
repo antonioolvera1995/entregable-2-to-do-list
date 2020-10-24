@@ -11,6 +11,7 @@ let labors: Labor[] = [];
 class Events {
     #stored: Stored;
     #print: Print;
+    #blockEdit: boolean = false;
     constructor() {
         this.#stored = new Stored();
         this.#print = new Print();
@@ -26,13 +27,18 @@ class Events {
             let targe: HTMLInputElement = e.target as HTMLInputElement;
             let name: string = targe.getAttribute('name') as string;
             let id: string = targe.getAttribute('id') as string;
+
             try {
                 if (name === 'edit' && id) {
-                    this.edit(Number(id));
+                    this.edit(Number(id), targe);
                 } else if (name === 'trash' && id) {
-                    this.delete(Number(id));
-                }else if (name === 'add') {
-                    this.write();
+                    if (!this.#blockEdit) {
+                        this.delete(Number(id));
+                    }
+                } else if (name === 'add') {
+                    if (!this.#blockEdit) {
+                        this.write();
+                    }
                 }
 
             } catch (error) {
@@ -45,7 +51,9 @@ class Events {
     search() {
         let searcher = <HTMLInputElement>document.getElementById('input-searcher');
         searcher?.addEventListener('keyup', () => {
-            this.#print.travel(searcher?.value, labors);
+            if (!this.#blockEdit) {
+                this.#print.travel(searcher?.value, labors);
+            }
         });
     }
 
@@ -62,13 +70,13 @@ class Events {
             }
             for (const item of labors) {
                 if (item.id === num) {
-                   block = true;
+                    block = true;
                 }
             }
-            
+
         }
 
-        let obNew:Labor = {text:'', date: this.#stored.getDate(),id:num};
+        let obNew: Labor = { text: '', date: this.#stored.getDate(), id: num };
         this.#stored.write(obNew);
         this.#print.printNew(obNew);
 
@@ -86,10 +94,38 @@ class Events {
     }
 
 
-    edit(id: number) {
-       let text:string = prompt('Introduce el texto deseado') as string;
-        this.#stored.edit(id, text, labors);
-        this.read();
+    edit(id: number, targe: HTMLInputElement) {
+
+        let textarea: HTMLInputElement = document.getElementById(`textarea-${id}`) as HTMLInputElement;
+        if (!this.#blockEdit) {
+            this.#blockEdit = true;
+            targe.classList.remove('fa-pencil');
+            targe.classList.add('fa-check');
+            textarea.disabled = false;
+            textarea.focus();
+
+        } else {
+
+            let block = true;
+            for (const item of targe.classList) {
+                if (item === 'fa-check') {
+                    block = false;
+                }
+            }
+
+            if (!block) {
+
+                this.#blockEdit = false;
+                   let text:string = textarea.value;
+                    this.#stored.edit(id, text, labors);
+                    this.read();
+            }
+
+
+
+
+        }
+
     }
 
 
