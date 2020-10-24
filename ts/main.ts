@@ -12,6 +12,7 @@ class Events {
     #stored: Stored;
     #print: Print;
     #blockEdit: boolean = false;
+    #reveal: boolean = false;
     constructor() {
         this.#stored = new Stored();
         this.#print = new Print();
@@ -27,6 +28,21 @@ class Events {
             let targe: HTMLInputElement = e.target as HTMLInputElement;
             let name: string = targe.getAttribute('name') as string;
             let id: string = targe.getAttribute('id') as string;
+
+
+            if (targe.getAttribute('nam') === 'textArea') {
+                let scrolH = targe.scrollHeight;
+                if (!this.#reveal) {
+                    targe.style.height = `${scrolH - 10}px`;
+                    this.#reveal = true;
+                }else{
+                    targe.style.height = `42px`;
+                    this.#reveal = false;
+                }
+                
+            }
+
+
 
             try {
                 if (name === 'edit' && id) {
@@ -85,7 +101,7 @@ class Events {
 
     read() {
         labors = this.#stored.read();
-        this.#print.print( labors);
+        this.#print.print(labors);
     }
 
     delete(id: number) {
@@ -105,6 +121,8 @@ class Events {
             textarea.disabled = false;
             textarea.selectionStart = textarea.value.length;
             textarea.focus();
+            let scrolH = textarea.scrollHeight;
+            textarea.style.height = `${scrolH - 10}px`;
 
         } else {
 
