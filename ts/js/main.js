@@ -94,6 +94,7 @@ class Events {
             targe.classList.remove('fa-pencil');
             targe.classList.add('fa-check');
             textarea.disabled = false;
+            textarea.selectionStart = textarea.value.length;
             textarea.focus();
         }
         else {
