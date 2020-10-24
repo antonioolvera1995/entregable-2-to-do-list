@@ -1,20 +1,35 @@
 .input-search {
   width: 12em;
   height: 2em;
+  margin-left: 3em;
   padding: 0.2em;
-  text-align: center;
-}
-.img-search {
-  color: white;
-  margin: 1em;
-  margin-right: 0.5em;
-}
+  padding-left: 3em;
+  text-align: left;
 
+  background-image: url(../img/img-search-2.png);
+  background-size: 1.6em;
+  background-position: 0.4em 0.4em;
+  background-repeat: no-repeat;
+  transition-duration: 500ms;
+}
+.input-search:focus {
+  width: 60%;
+}
 
 .img-add {
-  color: white;
+  color: rgb(255, 255, 255);
   margin: 1em;
   margin-left: auto;
+  transition-duration: 150ms;
+}
+
+.img-add:hover {
+  transform: scale(1.1, 1.1);
+}
+.img-add:active {
+  transform: scale(1.2, 1.2);
+  color: rgb(187, 187, 187);
+  transition-duration: 10ms;
 }
 
 /* --------------------------------------------------------------------------------- */
@@ -55,6 +70,18 @@
   height: 4em;
   margin-left: auto;
   margin-right: 1em;
+ 
+}
+.div-edit > i {
+  transition-duration: 150ms;
+}
+.div-edit > i:hover {
+  transform: scale(1.1, 1.1);
+}
+.div-edit > i:active{
+  transform: scale(1.2, 1.2);
+  color: rgba(8, 8, 8, 0.705);
+  transition-duration: 10ms;
 }
 
 .div-trash {
@@ -64,7 +91,20 @@
   width: 5%;
   height: 4em;
   margin-right: 1em;
+  transition-duration: 150ms;
 }
+.div-trash > i {
+  transition-duration: 150ms;
+}
+.div-trash > i:hover {
+  transform: scale(1.1, 1.1);
+}
+.div-trash > i:active{
+  transform: scale(1.2, 1.2);
+  color: rgba(8, 8, 8, 0.705);
+  transition-duration: 10ms;
+}
+
 .shadow {
   color: rgba(0, 0, 0, 0.6);
 }
@@ -79,6 +119,7 @@
   margin-bottom: 0.3em;
 }
 
+/* --------------------------textArea---------------------------------------- */
 .div-text-2 {
   display: flex;
   justify-content: flex-start;
@@ -93,9 +134,57 @@
   background-color: rgba(255, 255, 255, 0);
 
   color: black;
-  overflow: hidden;
-  /* resize: none; */
+  /* overflow: hidden; */
   padding: 0.3em;
+  border-radius: 0.5em;
+  
+  border-style: none;
+  outline: none;
+  transition-duration: 150ms;
+}
+.div-text-2::-webkit-scrollbar-corner{
+  background-color: rgba(0, 0, 0, 0);
+ border-radius: 0.3em;
 
+}
+
+
+.div-text-2::-webkit-scrollbar{
+ 
+  background-color: rgba(0, 0, 0, 0);
+
+
+}
+
+.div-text-2::-webkit-scrollbar-thumb{
+  background-color: rgba(0, 255, 255, 0);
+  color: rgba(0, 0, 0, 0);
+}
+
+.div-text-2::-webkit-scrollbar-track{
+  background-color: rgba(44, 207, 3, 0);
+  
+  }
+
+
+.div-text-2:focus{
+  animation-name: animTextarea;
+  animation-duration: 300ms;
+  animation-timing-function: linear;
+  background-color: rgba(255, 255, 255, 0.2);
+}
+
+@keyframes animTextarea{
+  0%{
+    background-color: rgba(255, 255, 255, 0.2);
+  }
+
+  50%{
+    background-color: rgba(255, 255, 255, 0.678);
+  }
+
+  100%{
+    background-color: rgba(255, 255, 255, 0.2);
+  }
 }
 /* ------------------------------------------------------------------------------------ */

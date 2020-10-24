@@ -12,13 +12,14 @@ var __classPrivateFieldGet = (this && this.__classPrivateFieldGet) || function (
     }
     return privateMap.get(receiver);
 };
-var _stored, _print, _blockEdit;
+var _stored, _print, _blockEdit, _reveal;
 let labors = [];
 class Events {
     constructor() {
         _stored.set(this, void 0);
         _print.set(this, void 0);
         _blockEdit.set(this, false);
+        _reveal.set(this, false);
         __classPrivateFieldSet(this, _stored, new Stored());
         __classPrivateFieldSet(this, _print, new Print());
         this.read();
@@ -31,6 +32,17 @@ class Events {
             let targe = e.target;
             let name = targe.getAttribute('name');
             let id = targe.getAttribute('id');
+            if (targe.getAttribute('nam') === 'textArea') {
+                let scrolH = targe.scrollHeight;
+                if (!__classPrivateFieldGet(this, _reveal)) {
+                    targe.style.height = `${scrolH - 10}px`;
+                    __classPrivateFieldSet(this, _reveal, true);
+                }
+                else {
+                    targe.style.height = `42px`;
+                    __classPrivateFieldSet(this, _reveal, false);
+                }
+            }
             try {
                 if (name === 'edit' && id) {
                     this.edit(Number(id), targe);
@@ -94,7 +106,10 @@ class Events {
             targe.classList.remove('fa-pencil');
             targe.classList.add('fa-check');
             textarea.disabled = false;
+            textarea.selectionStart = textarea.value.length;
             textarea.focus();
+            let scrolH = textarea.scrollHeight;
+            textarea.style.height = `${scrolH - 10}px`;
         }
         else {
             let block = true;
@@ -115,5 +130,5 @@ class Events {
         }
     }
 }
-_stored = new WeakMap(), _print = new WeakMap(), _blockEdit = new WeakMap();
+_stored = new WeakMap(), _print = new WeakMap(), _blockEdit = new WeakMap(), _reveal = new WeakMap();
 new Events();
