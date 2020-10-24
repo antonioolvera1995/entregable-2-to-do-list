@@ -38,6 +38,9 @@ class Stored {
         catch (error) {
             laborsTemp = [{ date: this.getDate(), text: '', id: 0 }];
         }
+        laborsTemp = laborsTemp.sort((a, b) => {
+            return b.id - a.id;
+        });
         return laborsTemp;
     }
     delete(id, laborTemp) {
@@ -72,7 +75,24 @@ class Stored {
     }
     getDate() {
         let date = new Date();
-        let dateString = `${date.getDate()}/${date.getMonth() + 1}/${date.getFullYear()}  ${date.getHours()}:${date.getMinutes()}`;
+        let day = `${date.getDate()}`;
+        let month = `${date.getMonth() + 1}`;
+        let year = `${date.getFullYear()}`;
+        let hour = `${date.getHours()}`;
+        let minutes = `${date.getMinutes()}`;
+        if (day.length < 2) {
+            day = `0${day}`;
+        }
+        if (month.length < 2) {
+            month = `0${month}`;
+        }
+        if (hour.length < 2) {
+            hour = `0${hour}`;
+        }
+        if (minutes.length < 2) {
+            minutes = `0${minutes}`;
+        }
+        let dateString = `${day}/${month}/${year}  ${hour}:${minutes}`;
         return dateString;
     }
 }

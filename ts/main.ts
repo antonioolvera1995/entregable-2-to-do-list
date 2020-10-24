@@ -52,7 +52,7 @@ class Events {
         let searcher = <HTMLInputElement>document.getElementById('input-searcher');
         searcher?.addEventListener('keyup', () => {
             if (!this.#blockEdit) {
-                this.#print.travel(searcher?.value, labors);
+                this.#print.travel(searcher?.value.toLocaleLowerCase(), labors);
             }
         });
     }
@@ -118,7 +118,12 @@ class Events {
                 this.#blockEdit = false;
                    let text:string = textarea.value;
                     this.#stored.edit(id, text, labors);
-                    this.read();
+
+                    targe.classList.add('fa-pencil');
+                    targe.classList.remove('fa-check');
+                    textarea.disabled = true;
+                    textarea.blur();
+                    // this.read();
             }
 
 

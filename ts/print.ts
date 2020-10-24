@@ -10,13 +10,15 @@ class Print {
         else {
             for (let i = 0; i < laborsTemp.length; i++) {
                 const element = laborsTemp[i];
-                if (element.text.search(search) > -1) {
+                if ((element.text.toLocaleLowerCase()).search(search) > -1) {
                     laborsPrint.push(element);
                 }
             }
         }
         this.print(laborsPrint);
     }
+
+    
 
     print(laborsPrint: Labor[]) {
         let ul: HTMLInputElement = document.getElementById('list') as HTMLInputElement;
@@ -61,8 +63,6 @@ class Print {
             </div>
             <div  class="div-edit"><i name="edit" id="${laborsPrint.id}" class="fa fa-pencil fa-3x shadow" aria-hidden="true"></i></i></div>
             <div  class="div-trash"><i name="trash" id="${laborsPrint.id}" class="fa fa-trash fa-3x shadow" aria-hidden="true"></i></div>`;
-
-
 
         ul1.innerHTML = lista;
         ul.insertBefore(ul1, ul.childNodes[0]);

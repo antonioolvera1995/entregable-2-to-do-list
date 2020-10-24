@@ -54,7 +54,7 @@ class Events {
         let searcher = document.getElementById('input-searcher');
         searcher === null || searcher === void 0 ? void 0 : searcher.addEventListener('keyup', () => {
             if (!__classPrivateFieldGet(this, _blockEdit)) {
-                __classPrivateFieldGet(this, _print).travel(searcher === null || searcher === void 0 ? void 0 : searcher.value, labors);
+                __classPrivateFieldGet(this, _print).travel(searcher === null || searcher === void 0 ? void 0 : searcher.value.toLocaleLowerCase(), labors);
             }
         });
     }
@@ -106,7 +106,10 @@ class Events {
                 __classPrivateFieldSet(this, _blockEdit, false);
                 let text = textarea.value;
                 __classPrivateFieldGet(this, _stored).edit(id, text, labors);
-                this.read();
+                targe.classList.add('fa-pencil');
+                targe.classList.remove('fa-check');
+                textarea.disabled = true;
+                textarea.blur();
             }
         }
     }

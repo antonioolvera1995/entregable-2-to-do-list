@@ -25,7 +25,7 @@ class Print {
         else {
             for (let i = 0; i < laborsTemp.length; i++) {
                 const element = laborsTemp[i];
-                if (element.text.search(search) > -1) {
+                if ((element.text.toLocaleLowerCase()).search(search) > -1) {
                     laborsPrint.push(element);
                 }
             }
