@@ -1,4 +1,5 @@
 class Print {
+    #numberColor: number = 0;
     constructor() { }
 
     travel(search: string, laborsTemp: Labor[]) {
@@ -26,7 +27,7 @@ class Print {
         for (let i = 0; i < laborsPrint.length; i++) {
             const element = laborsPrint[i];
 
-            lista += `<div class="div-block">
+            lista += `<div style="background-color:${this.travelColor()} ;" class="div-block">
             <div class="div-texts">
                 <div class="div-text-1">${element.date}</div>
                 <textarea id="textarea-${element.id}" disabled class="div-text-2">${element.text}</textarea>
@@ -35,6 +36,7 @@ class Print {
             <div  class="div-trash"><i name="trash" id="${element.id}" class="fa fa-trash fa-3x shadow" aria-hidden="true"></i></div>
         </div>`;
 
+            this.#numberColor++;
         }
 
         ul.innerHTML = lista;
@@ -46,10 +48,12 @@ class Print {
 
         let ul1: HTMLInputElement = document.createElement('div') as HTMLInputElement;
         ul1.classList.add('div-block');
+        ul1.style.backgroundColor = `${this.travelColor()}`;
+        this.#numberColor++;
         ul1.innerHTML = '';
         let lista: string = '';
 
-
+        
         lista = `
             <div class="div-texts">
                 <div class="div-text-1">${laborsPrint.date}</div>
@@ -66,9 +70,16 @@ class Print {
     }
 
 
-    travelColor() {
+    travelColor(): string {
+        let colors: string[] = [
+         'rgb(199,206,234)', 'rgb(175,195,210)', 'rgb(175,233,255)', 'rgb(181,234,215)',
+         'rgb(226,240,203)', 'rgb(255,218,193)', 'rgb(255,183,178)', 'rgb(255,154,162)'];
 
+        if (this.#numberColor >= colors.length) {
+            this.#numberColor = 0;
+        }
 
+        return colors[this.#numberColor];
     }
 
 
