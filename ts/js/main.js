@@ -12,7 +12,7 @@ var __classPrivateFieldGet = (this && this.__classPrivateFieldGet) || function (
     }
     return privateMap.get(receiver);
 };
-var _stored, _print, _blockEdit, _reveal;
+var _stored, _print, _blockEdit, _reveal, _blockReveal;
 let labors = [];
 class Events {
     constructor() {
@@ -20,6 +20,7 @@ class Events {
         _print.set(this, void 0);
         _blockEdit.set(this, false);
         _reveal.set(this, false);
+        _blockReveal.set(this, false);
         __classPrivateFieldSet(this, _stored, new Stored());
         __classPrivateFieldSet(this, _print, new Print());
         this.read();
@@ -32,20 +33,23 @@ class Events {
             let targe = e.target;
             let name = targe.getAttribute('name');
             let id = targe.getAttribute('id');
-            if (targe.getAttribute('nam') === 'textArea') {
-                let scrolH = targe.scrollHeight;
-                if (!__classPrivateFieldGet(this, _reveal)) {
-                    targe.style.height = `${scrolH - 10}px`;
-                    __classPrivateFieldSet(this, _reveal, true);
-                }
-                else {
-                    targe.style.height = `42px`;
-                    __classPrivateFieldSet(this, _reveal, false);
+            if (!__classPrivateFieldGet(this, _blockReveal)) {
+                if (targe.getAttribute('nam') === 'textArea') {
+                    let scrolH = targe.scrollHeight;
+                    if (!__classPrivateFieldGet(this, _reveal)) {
+                        targe.style.height = `${scrolH - 10}px`;
+                        __classPrivateFieldSet(this, _reveal, true);
+                    }
+                    else {
+                        targe.style.height = `42px`;
+                        __classPrivateFieldSet(this, _reveal, false);
+                    }
                 }
             }
             try {
                 if (name === 'edit' && id) {
                     this.edit(Number(id), targe);
+                    __classPrivateFieldSet(this, _reveal, true);
                 }
                 else if (name === 'trash' && id) {
                     if (!__classPrivateFieldGet(this, _blockEdit)) {
@@ -130,5 +134,5 @@ class Events {
         }
     }
 }
-_stored = new WeakMap(), _print = new WeakMap(), _blockEdit = new WeakMap(), _reveal = new WeakMap();
+_stored = new WeakMap(), _print = new WeakMap(), _blockEdit = new WeakMap(), _reveal = new WeakMap(), _blockReveal = new WeakMap();
 new Events();

@@ -13,6 +13,7 @@ class Events {
     #print: Print;
     #blockEdit: boolean = false;
     #reveal: boolean = false;
+    #blockReveal: boolean = false;
     constructor() {
         this.#stored = new Stored();
         this.#print = new Print();
@@ -30,23 +31,27 @@ class Events {
             let id: string = targe.getAttribute('id') as string;
 
 
-            if (targe.getAttribute('nam') === 'textArea') {
-                let scrolH = targe.scrollHeight;
-                if (!this.#reveal) {
-                    targe.style.height = `${scrolH - 10}px`;
-                    this.#reveal = true;
-                }else{
-                    targe.style.height = `42px`;
-                    this.#reveal = false;
+            if (!this.#blockReveal) {
+                if (targe.getAttribute('nam') === 'textArea') {
+                    let scrolH = targe.scrollHeight;
+                    if (!this.#reveal) {
+                        targe.style.height = `${scrolH - 10}px`;
+                        this.#reveal = true;
+                    } else {
+                        targe.style.height = `42px`;
+                        this.#reveal = false;
+                    }
+
                 }
-                
             }
+
 
 
 
             try {
                 if (name === 'edit' && id) {
                     this.edit(Number(id), targe);
+                    this.#reveal = true;
                 } else if (name === 'trash' && id) {
                     if (!this.#blockEdit) {
                         this.delete(Number(id));
@@ -60,7 +65,7 @@ class Events {
             } catch (error) {
 
             }
- 
+
 
         });
     }
