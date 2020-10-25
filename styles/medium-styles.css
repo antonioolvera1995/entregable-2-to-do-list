@@ -1,0 +1,44 @@
+.input-search:focus {
+  width: 50%;
+  outline-color: rgba(0, 0, 0, 0.8);
+}
+
+.div-text-2 {
+  width: 90%;
+  max-width: 90%;
+  min-width: 90%;
+  min-height: 2em;
+}
+
+.div-edit > i {
+  transition-duration: 150ms;
+  margin-right: 1em;
+}
+
+.div-trash > i {
+  transition-duration: 150ms;
+  margin-right: 0.5em;
+}
+
+@media only screen and (max-width: 800px) {
+  .div-text-2 {
+    width: 80%;
+    max-width: 80%;
+    min-width: 80%;
+    min-height: 2em;
+  }
+  .input-search:focus {
+    width: 35%;
+    outline-color: rgba(0, 0, 0, 0.8);
+  }
+
+  .div-edit > i {
+    transition-duration: 150ms;
+    margin-right: 1.5em;
+  }
+
+  .div-trash > i {
+    transition-duration: 150ms;
+    margin-right: 0.5em;
+  }
+}
