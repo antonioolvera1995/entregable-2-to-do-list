@@ -26,6 +26,13 @@ class Events {
         this.read();
         this.search();
         this.events();
+        this.windowSize();
+    }
+    windowSize() {
+        let divList = document.getElementById('list');
+        let body = document.querySelector('body');
+        let bodyHeight = body.clientHeight;
+        divList.style.minHeight = `${bodyHeight - 209}px`;
     }
     events() {
         var _a;
@@ -73,6 +80,9 @@ class Events {
                 __classPrivateFieldGet(this, _print).travelSearch(searcher === null || searcher === void 0 ? void 0 : searcher.value.toLocaleLowerCase(), labors);
             }
         });
+        searcher === null || searcher === void 0 ? void 0 : searcher.addEventListener('click', () => {
+            searcher.select();
+        });
     }
     write() {
         let num = 0;
@@ -108,6 +118,7 @@ class Events {
     edit(id, targe) {
         let textarea = document.getElementById(`textarea-${id}`);
         if (!__classPrivateFieldGet(this, _blockEdit)) {
+            __classPrivateFieldSet(this, _blockReveal, true);
             __classPrivateFieldSet(this, _blockEdit, true);
             targe.classList.remove('fa-pencil');
             targe.classList.add('fa-check');
@@ -125,6 +136,7 @@ class Events {
                 }
             }
             if (!block) {
+                __classPrivateFieldSet(this, _blockReveal, false);
                 __classPrivateFieldSet(this, _blockEdit, false);
                 let text = textarea.value;
                 __classPrivateFieldGet(this, _stored).edit(id, text, labors);

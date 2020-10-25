@@ -20,7 +20,15 @@ class Events {
         this.read();
         this.search();
         this.events();
+        this.windowSize();
 
+    }
+
+    windowSize() {
+        let divList:HTMLInputElement = document.getElementById('list') as HTMLInputElement;
+        let body:HTMLElement = document.querySelector('body') as HTMLElement;
+        let bodyHeight:number = body.clientHeight;
+        divList.style.minHeight = `${bodyHeight-209}px`;
     }
 
     events() {
@@ -76,6 +84,9 @@ class Events {
                 this.#print.travelSearch(searcher?.value.toLocaleLowerCase(), labors);
             }
         });
+        searcher?.addEventListener('click', () => {
+            searcher.select();
+        });
     }
 
 
@@ -123,6 +134,7 @@ class Events {
 
         let textarea: HTMLInputElement = document.getElementById(`textarea-${id}`) as HTMLInputElement;
         if (!this.#blockEdit) {
+            this.#blockReveal = true;
             this.#blockEdit = true;
             targe.classList.remove('fa-pencil');
             targe.classList.add('fa-check');
@@ -142,7 +154,7 @@ class Events {
             }
 
             if (!block) {
-
+                this.#blockReveal = false;
                 this.#blockEdit = false;
                 let text: string = textarea.value;
                 this.#stored.edit(id, text, labors);
