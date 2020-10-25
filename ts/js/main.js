@@ -47,8 +47,8 @@ class Events {
                 }
             }
             try {
-                if (name === 'edit' && id) {
-                    this.edit(Number(id), targe);
+                if (name === 'edit' && id.substring(0, 5) === 'edit-') {
+                    this.edit(Number(id.substring(5, id.length)), targe);
                     __classPrivateFieldSet(this, _reveal, true);
                 }
                 else if (name === 'trash' && id) {
@@ -93,6 +93,8 @@ class Events {
         let obNew = { text: '', date: __classPrivateFieldGet(this, _stored).getDate(), id: num };
         __classPrivateFieldGet(this, _stored).write(obNew);
         __classPrivateFieldGet(this, _print).printNew(obNew);
+        let add = document.getElementById(`edit-${num}`);
+        add.click();
     }
     read() {
         labors = __classPrivateFieldGet(this, _stored).read();

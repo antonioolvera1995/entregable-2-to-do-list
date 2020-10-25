@@ -55,7 +55,7 @@ class Print {
                 <div class="div-text-1">${element.date}</div>
                 <textarea nam="textArea" id="textarea-${element.id}" disabled class="div-text-2">${element.text}</textarea>
             </div>
-            <div  class="div-edit"><i name="edit" id="${element.id}" class="fa fa-pencil fa-3x shadow" aria-hidden="true"></i></i></div>
+            <div  class="div-edit"><i name="edit" id="edit-${element.id}" class="fa fa-pencil fa-3x shadow" aria-hidden="true"></i></i></div>
             <div  class="div-trash"><i name="trash" id="${element.id}" class="fa fa-trash fa-3x shadow" aria-hidden="true"></i></div>
         </div>`;
             __classPrivateFieldSet(this, _numberColor, +__classPrivateFieldGet(this, _numberColor) + 1);
@@ -76,7 +76,7 @@ class Print {
                 <div class="div-text-1">${laborsPrint.date}</div>
                 <textarea nam="textArea"  id="textarea-${laborsPrint.id}" disabled class="div-text-2">${laborsPrint.text}</textarea>
             </div>
-            <div  class="div-edit"><i name="edit" id="${laborsPrint.id}" class="fa fa-pencil fa-3x shadow" aria-hidden="true"></i></i></div>
+            <div  class="div-edit"><i name="edit" id="edit-${laborsPrint.id}" class="fa fa-pencil fa-3x shadow" aria-hidden="true"></i></i></div>
             <div  class="div-trash"><i name="trash" id="${laborsPrint.id}" class="fa fa-trash fa-3x shadow" aria-hidden="true"></i></div>`;
         ul1.innerHTML = lista;
         ul.insertBefore(ul1, ul.childNodes[0]);

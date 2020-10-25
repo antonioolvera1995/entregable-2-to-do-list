@@ -49,8 +49,8 @@ class Events {
 
 
             try {
-                if (name === 'edit' && id) {
-                    this.edit(Number(id), targe);
+                if (name === 'edit' && id.substring(0,5)==='edit-') {
+                    this.edit(Number(id.substring(5, id.length)), targe);
                     this.#reveal = true;
                 } else if (name === 'trash' && id) {
                     if (!this.#blockEdit) {
@@ -100,6 +100,9 @@ class Events {
         let obNew: Labor = { text: '', date: this.#stored.getDate(), id: num };
         this.#stored.write(obNew);
         this.#print.printNew(obNew);
+        let add:HTMLInputElement = document.getElementById(`edit-${num}`) as HTMLInputElement;
+        add.click();
+        
 
     }
 
