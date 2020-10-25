@@ -83,8 +83,8 @@ class Print {
     }
     travelColor() {
         let colors = [
-            'rgb(199,206,234)', 'rgb(175,195,210)', 'rgb(175,233,255)', 'rgb(181,234,215)',
-            'rgb(226,240,203)', 'rgb(255,218,193)', 'rgb(255,183,178)', 'rgb(255,154,162)'
+            'rgb(175,233,255)', 'rgb(181,234,215)', 'rgb(226,240,203)', 'rgb(255,218,193)',
+            'rgb(255,183,178)', 'rgb(255,154,162)', 'rgb(199,206,234)', 'rgb(175,195,210)'
         ];
         if (__classPrivateFieldGet(this, _numberColor) >= colors.length) {
             __classPrivateFieldSet(this, _numberColor, 0);

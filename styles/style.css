@@ -7,6 +7,7 @@ html, body{
     width: 100%;
     min-height: 100%;
     background-color: rgb(236, 236, 236);
+    
 }
 
 .main {
@@ -56,4 +57,40 @@ box-shadow:  0px 1px 0.4em 1px rgba(0,0,0,0.70);
     margin-top: 2.3em;
 
     box-shadow:  0px -1px 0.4em 1px rgba(0,0,0,0.70);
+}
+
+/* ---------------------scroll--------------------------- */
+
+
+body::-webkit-scrollbar {
+    width: 1em;     
+    height: 1em; 
+    box-shadow: inset 0px 0px 0.4em 1px rgba(0,0,0,0.20);
+    background-color: rgb(236, 236, 236);
+  
+}
+
+
+body::-webkit-scrollbar-thumb {
+    box-shadow: inset 0px 0px 0.4em 2px rgba(0, 0, 0, 0.4);
+    background: rgb(185, 185, 185);
+    border-radius: 10px;   
+     
+}
+
+
+body::-webkit-scrollbar-track {
+    box-shadow: inset 0px 0px 0.4em 1px rgba(0,0,0,0.20);
+    background-color: rgb(236, 236, 236);
+    border-radius: 10px;
+}
+
+
+body::-webkit-scrollbar-thumb:active{
+    box-shadow: inset 0px 0px 0.4em 2px rgba(255, 255, 255, 0.4);
+    background: rgb(0, 0, 0);
+}
+
+body::-webkit-scrollbar-track:active {
+    background-color: rgb(255, 255, 255);
 }
