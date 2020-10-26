@@ -20,16 +20,16 @@ class Events {
         this.read();
         this.search();
         this.events();
-        this.windowSize();
+        // this.windowSize();
 
     }
 
-    windowSize() {
-        let divList:HTMLInputElement = document.getElementById('list') as HTMLInputElement;
-        let body:HTMLElement = document.querySelector('body') as HTMLElement;
-        let bodyHeight:number = body.clientHeight;
-        divList.style.minHeight = `${bodyHeight-209}px`;
-    }
+    // windowSize() {
+    //     let divList:HTMLInputElement = document.getElementById('list') as HTMLInputElement;
+    //     let body:HTMLElement = document.querySelector('body') as HTMLElement;
+    //     let bodyHeight:number = body.clientHeight;
+    //     divList.style.minHeight = `${bodyHeight-209}px`;
+    // }
 
     events() {
         document.querySelector('body')?.addEventListener('click', (e) => {

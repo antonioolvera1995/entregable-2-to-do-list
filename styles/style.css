@@ -55,6 +55,7 @@ box-shadow:  0px 1px 0.4em 1px rgba(0,0,0,0.70);
     height: 6em;
     background-color: black;
     margin-top: 2.3em;
+bottom: 0px;
 
     box-shadow:  0px -1px 0.4em 1px rgba(0,0,0,0.70);
 }
