@@ -1,4 +1,13 @@
 "use strict";
+var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
 var __classPrivateFieldSet = (this && this.__classPrivateFieldSet) || function (receiver, privateMap, value) {
     if (!privateMap.has(receiver)) {
         throw new TypeError("attempted to set private field on non-instance");
@@ -23,16 +32,19 @@ class Events {
         _blockReveal.set(this, false);
         __classPrivateFieldSet(this, _stored, new Stored());
         __classPrivateFieldSet(this, _print, new Print());
-        this.read();
-        this.search();
-        this.events();
-        this.windowSize();
+        this.loads();
     }
-    windowSize() {
-        let divList = document.getElementById('list');
-        let body = document.querySelector('body');
-        let bodyHeight = body.clientHeight;
-        divList.style.minHeight = `${bodyHeight - 209}px`;
+    loads() {
+        return __awaiter(this, void 0, void 0, function* () {
+            try {
+                yield this.read();
+                this.search();
+                this.events();
+            }
+            catch (error) {
+                console.log(error);
+            }
+        });
     }
     events() {
         var _a;
@@ -70,6 +82,7 @@ class Events {
                 }
             }
             catch (error) {
+                console.log(error);
             }
         });
     }
@@ -85,67 +98,83 @@ class Events {
         });
     }
     write() {
-        let num = 0;
-        let block = true;
-        while (block) {
-            block = false;
-            for (const item of labors) {
-                if (item.id >= num) {
-                    num++;
+        return __awaiter(this, void 0, void 0, function* () {
+            let num = 0;
+            let block = true;
+            while (block) {
+                block = false;
+                for (const item of labors) {
+                    if (item.id >= num) {
+                        num++;
+                    }
+                }
+                for (const item of labors) {
+                    if (item.id >= num) {
+                        block = true;
+                    }
                 }
             }
-            for (const item of labors) {
-                if (item.id >= num) {
-                    block = true;
-                }
-            }
-        }
-        let obNew = { text: '', date: __classPrivateFieldGet(this, _stored).getDate(), id: num };
-        __classPrivateFieldGet(this, _stored).write(obNew);
-        __classPrivateFieldGet(this, _print).printNew(obNew);
-        let add = document.getElementById(`edit-${num}`);
-        add.click();
+            let obNew = { text: '', date: __classPrivateFieldGet(this, _stored).getDate(), id: num };
+            yield __classPrivateFieldGet(this, _stored).write(obNew);
+            __classPrivateFieldGet(this, _print).printNew(obNew);
+            let add = document.getElementById(`edit-${num}`);
+            add.click();
+        });
     }
     read() {
-        labors = __classPrivateFieldGet(this, _stored).read();
-        __classPrivateFieldGet(this, _print).print(labors);
+        return __awaiter(this, void 0, void 0, function* () {
+            try {
+                yield __classPrivateFieldGet(this, _stored).read().then((res) => { labors = res; }).catch((error) => { });
+                __classPrivateFieldGet(this, _print).print(labors);
+            }
+            catch (error) {
+                console.log(error);
+            }
+        });
     }
     delete(id) {
-        let div = document.getElementById(`block-in-${id}`);
-        div.remove();
-        labors = __classPrivateFieldGet(this, _stored).delete(id, labors);
+        return __awaiter(this, void 0, void 0, function* () {
+            let div = document.getElementById(`block-in-${id}`);
+            div.remove();
+            yield __classPrivateFieldGet(this, _stored).delete(id, labors).then((res) => { labors = res; })
+                .catch((error) => {
+                console.log(error);
+            });
+        });
     }
     edit(id, targe) {
-        let textarea = document.getElementById(`textarea-${id}`);
-        if (!__classPrivateFieldGet(this, _blockEdit)) {
-            __classPrivateFieldSet(this, _blockReveal, true);
-            __classPrivateFieldSet(this, _blockEdit, true);
-            targe.classList.remove('fa-pencil');
-            targe.classList.add('fa-check');
-            textarea.disabled = false;
-            textarea.selectionStart = textarea.value.length;
-            textarea.focus();
-            let scrolH = textarea.scrollHeight;
-            textarea.style.height = `${scrolH - 10}px`;
-        }
-        else {
-            let block = true;
-            for (const item of targe.classList) {
-                if (item === 'fa-check') {
-                    block = false;
+        return __awaiter(this, void 0, void 0, function* () {
+            let textarea = document.getElementById(`textarea-${id}`);
+            if (!__classPrivateFieldGet(this, _blockEdit)) {
+                __classPrivateFieldSet(this, _blockReveal, true);
+                __classPrivateFieldSet(this, _blockEdit, true);
+                targe.classList.remove('fa-pencil');
+                targe.classList.add('fa-check');
+                textarea.disabled = false;
+                textarea.selectionStart = textarea.value.length;
+                textarea.focus();
+                let scrolH = textarea.scrollHeight;
+                textarea.style.height = `${scrolH - 10}px`;
+            }
+            else {
+                let block = true;
+                for (const item of targe.classList) {
+                    if (item === 'fa-check') {
+                        block = false;
+                    }
+                }
+                if (!block) {
+                    __classPrivateFieldSet(this, _blockReveal, false);
+                    __classPrivateFieldSet(this, _blockEdit, false);
+                    let text = textarea.value;
+                    yield __classPrivateFieldGet(this, _stored).edit(id, text, labors);
+                    targe.classList.add('fa-pencil');
+                    targe.classList.remove('fa-check');
+                    textarea.disabled = true;
+                    textarea.blur();
                 }
             }
-            if (!block) {
-                __classPrivateFieldSet(this, _blockReveal, false);
-                __classPrivateFieldSet(this, _blockEdit, false);
-                let text = textarea.value;
-                __classPrivateFieldGet(this, _stored).edit(id, text, labors);
-                targe.classList.add('fa-pencil');
-                targe.classList.remove('fa-check');
-                textarea.disabled = true;
-                textarea.blur();
-            }
-        }
+        });
     }
 }
 _stored = new WeakMap(), _print = new WeakMap(), _blockEdit = new WeakMap(), _reveal = new WeakMap(), _blockReveal = new WeakMap();

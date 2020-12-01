@@ -1,77 +1,108 @@
 "use strict";
+var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
 class Stored {
     constructor() { }
-    write(laborTemp) {
-        try {
-            if (laborTemp.date.length > 2) {
-                labors.push(laborTemp);
-                let text = JSON.stringify(labors);
-                localStorage.setItem('labors', text);
-            }
-        }
-        catch (error) {
-            labors.push(laborTemp);
-        }
+    callApi(url, method) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const usuario = yield fetch(url, {
+                method: method
+            });
+            let data = yield usuario.json();
+            return data;
+        });
     }
-    writeAll(laborsTemp) {
-        try {
-            let text = JSON.stringify(laborsTemp);
-            localStorage.setItem('labors', text);
-        }
-        catch (error) {
-        }
+    write(laborTemp) {
+        return __awaiter(this, void 0, void 0, function* () {
+            try {
+                if (laborTemp.date.length > 2) {
+                    labors.push(laborTemp);
+                    yield this.callApi('http://localhost:3000/note', 'POST');
+                }
+            }
+            catch (error) {
+                labors.push(laborTemp);
+            }
+        });
     }
     read() {
-        let search = document.getElementById('input-searcher');
-        search.blur();
-        search.value = '';
-        let laborsTemp = [];
-        try {
-            let text = localStorage.getItem(`labors`);
-            if (text && text.length > 2) {
-                laborsTemp = JSON.parse(text);
+        return __awaiter(this, void 0, void 0, function* () {
+            try {
+                let search = document.getElementById('input-searcher');
+                search.blur();
+                search.value = '';
+                let laborsTemp = [];
+                try {
+                    const getAll = yield this.callApi('http://localhost:3000/notes', 'GET');
+                    for (const item of getAll) {
+                        let obj = { date: item.createdAt, text: item.description, id: item.id };
+                        laborsTemp.push(obj);
+                    }
+                }
+                catch (error) {
+                    laborsTemp = [{ date: this.getDate(), text: '', id: 0 }];
+                }
+                laborsTemp = laborsTemp.sort((a, b) => {
+                    return b.id - a.id;
+                });
+                return laborsTemp;
             }
-            else {
-                laborsTemp = [{ date: this.getDate(), text: '', id: 0 }];
+            catch (error) {
             }
-        }
-        catch (error) {
-            laborsTemp = [{ date: this.getDate(), text: '', id: 0 }];
-        }
-        laborsTemp = laborsTemp.sort((a, b) => {
-            return b.id - a.id;
         });
-        return laborsTemp;
     }
     delete(id, laborTemp) {
-        let laborsClear = [];
-        for (let i = 0; i < laborTemp.length; i++) {
-            if (laborTemp[i].id === id) {
+        return __awaiter(this, void 0, void 0, function* () {
+            try {
+                let laborsClear = [];
+                for (let i = 0; i < laborTemp.length; i++) {
+                    if (laborTemp[i].id === id) {
+                    }
+                    else {
+                        const element = laborTemp[i];
+                        laborsClear.push(element);
+                    }
+                }
+                yield this.callApi(`http://localhost:3000/note/${id}`, 'DELETE');
+                return laborsClear;
             }
-            else {
-                const element = laborTemp[i];
-                laborsClear.push(element);
+            catch (error) {
+                console.log(error);
             }
-        }
-        this.writeAll(laborsClear);
-        return laborsClear;
+        });
     }
     edit(id, text, laborTemp) {
-        let laborsEdit = [];
-        for (let i = 0; i < laborTemp.length; i++) {
-            if (laborTemp[i].id === id) {
-                const element = laborTemp[i];
-                element.date = this.getDate();
-                element.text = text;
-                laborsEdit.push(element);
+        return __awaiter(this, void 0, void 0, function* () {
+            let laborsEdit = [];
+            for (let i = 0; i < laborTemp.length; i++) {
+                if (laborTemp[i].id === id) {
+                    const element = laborTemp[i];
+                    element.date = this.getDate();
+                    element.text = text;
+                    laborsEdit.push(element);
+                }
+                else {
+                    const element = laborTemp[i];
+                    laborsEdit.push(element);
+                }
             }
-            else {
-                const element = laborTemp[i];
-                laborsEdit.push(element);
-            }
-        }
-        this.writeAll(laborsEdit);
-        return laborsEdit;
+            yield fetch(`http://localhost:3000/note/${id}`, {
+                method: 'PUT',
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ description: text })
+            });
+            return laborsEdit;
+        });
     }
     getDate() {
         let date = new Date();

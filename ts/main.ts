@@ -17,13 +17,23 @@ class Events {
     constructor() {
         this.#stored = new Stored();
         this.#print = new Print();
-        this.read();
-        this.search();
-        this.events();
-        // this.windowSize();
+        this.loads();
 
     }
 
+    async loads() {
+
+try {
+    await this.read();
+     this.search();
+     this.events();
+    // this.windowSize();
+} catch (error) {
+    console.log(error);
+    
+}
+
+    }
     // windowSize() {
     //     let divList:HTMLInputElement = document.getElementById('list') as HTMLInputElement;
     //     let body:HTMLElement = document.querySelector('body') as HTMLElement;
@@ -57,7 +67,7 @@ class Events {
 
 
             try {
-                if (name === 'edit' && id.substring(0,5)==='edit-') {
+                if (name === 'edit' && id.substring(0, 5) === 'edit-') {
                     this.edit(Number(id.substring(5, id.length)), targe);
                     this.#reveal = true;
                 } else if (name === 'trash' && id) {
@@ -71,6 +81,7 @@ class Events {
                 }
 
             } catch (error) {
+                console.log(error);
 
             }
 
@@ -90,7 +101,7 @@ class Events {
     }
 
 
-    write() {
+   async write() {
         let num = 0;
         let block = true;
         while (block) {
@@ -109,28 +120,40 @@ class Events {
         }
 
         let obNew: Labor = { text: '', date: this.#stored.getDate(), id: num };
-        this.#stored.write(obNew);
+        await this.#stored.write(obNew);
         this.#print.printNew(obNew);
-        let add:HTMLInputElement = document.getElementById(`edit-${num}`) as HTMLInputElement;
+        let add: HTMLInputElement = document.getElementById(`edit-${num}`) as HTMLInputElement;
         add.click();
+
+
+    }
+
+
+  async  read() {
+    try {
         
 
-    }
-
-
-    read() {
-        labors = this.#stored.read();
+        //@ts-ignore
+        await this.#stored.read().then((res)=>{labors = res}).catch((error)=>{});
         this.#print.print(labors);
+
+    } catch (error) {
+        console.log(error);
+        
+    }
     }
 
-    delete(id: number) {
+   async delete(id: number) {
         let div: HTMLInputElement = document.getElementById(`block-in-${id}`) as HTMLInputElement;
         div.remove();
-        labors = this.#stored.delete(id, labors);
+        //@ts-ignore
+        await this.#stored.delete(id, labors).then((res)=>{labors = res})
+        .catch((error)=>{console.log(error);
+        });
     }
 
 
-    edit(id: number, targe: HTMLInputElement) {
+   async edit(id: number, targe: HTMLInputElement) {
 
         let textarea: HTMLInputElement = document.getElementById(`textarea-${id}`) as HTMLInputElement;
         if (!this.#blockEdit) {
@@ -157,7 +180,7 @@ class Events {
                 this.#blockReveal = false;
                 this.#blockEdit = false;
                 let text: string = textarea.value;
-                this.#stored.edit(id, text, labors);
+                await this.#stored.edit(id, text, labors);
 
                 targe.classList.add('fa-pencil');
                 targe.classList.remove('fa-check');
