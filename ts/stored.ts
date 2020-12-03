@@ -51,19 +51,16 @@ class Stored {
 
         const getAll: DbObjet[] = await this.callApi('http://localhost:3000/notes', 'GET');
         for (const item of getAll) {
-          let obj: Labor = { date: item.createdAt, text: item.description, id: item.id };
+          //@ts-ignore
+          let obj: Labor = { date: item.createdAt, text: item.description, id: item["_id"] };
           laborsTemp.push(obj);
         }
 
       } catch (error) {
-        laborsTemp = [{ date: this.getDate(), text: '', id: 0 }];
+        laborsTemp = [{ date: this.getDate(), text: '', id: 'undefine' }];
       }
 
-      laborsTemp = laborsTemp.sort((a, b) => {
-
-
-        return b.id - a.id;
-      });
+    
       return laborsTemp;
 
 
@@ -75,23 +72,14 @@ class Stored {
 
 
 
-  async delete(id: number, laborTemp: Labor[]) {
+  async delete(id: string, laborTemp: Labor[]) {
     try {
 
 
-      let laborsClear: Labor[] = [];
-      for (let i = 0; i < laborTemp.length; i++) {
-        if (laborTemp[i].id === id) {
-        } else {
-          const element = laborTemp[i];
-          laborsClear.push(element);
-        }
 
-      }
-      // await this.writeAll(laborsClear);
 
       await this.callApi(`http://localhost:3000/note/${id}`, 'DELETE');
-      return laborsClear;
+      location.reload();
 
     } catch (error) {
       console.log(error);
@@ -100,7 +88,7 @@ class Stored {
   }
 
 
-  async edit(id: number, text: string, laborTemp: Labor[]) {
+  async edit(id: string, text: string, laborTemp: Labor[]) {
 
     let laborsEdit: Labor[] = [];
     for (let i = 0; i < laborTemp.length; i++) {
@@ -168,6 +156,6 @@ class Stored {
 interface DbObjet {
   createdAt: string,
   description: string,
-  id: number,
+  id: string,
   updatedAt: string
 }

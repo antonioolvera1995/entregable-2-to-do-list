@@ -42,16 +42,13 @@ class Stored {
                 try {
                     const getAll = yield this.callApi('http://localhost:3000/notes', 'GET');
                     for (const item of getAll) {
-                        let obj = { date: item.createdAt, text: item.description, id: item.id };
+                        let obj = { date: item.createdAt, text: item.description, id: item["_id"] };
                         laborsTemp.push(obj);
                     }
                 }
                 catch (error) {
-                    laborsTemp = [{ date: this.getDate(), text: '', id: 0 }];
+                    laborsTemp = [{ date: this.getDate(), text: '', id: 'undefine' }];
                 }
-                laborsTemp = laborsTemp.sort((a, b) => {
-                    return b.id - a.id;
-                });
                 return laborsTemp;
             }
             catch (error) {
@@ -61,17 +58,8 @@ class Stored {
     delete(id, laborTemp) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
-                let laborsClear = [];
-                for (let i = 0; i < laborTemp.length; i++) {
-                    if (laborTemp[i].id === id) {
-                    }
-                    else {
-                        const element = laborTemp[i];
-                        laborsClear.push(element);
-                    }
-                }
                 yield this.callApi(`http://localhost:3000/note/${id}`, 'DELETE');
-                return laborsClear;
+                location.reload();
             }
             catch (error) {
                 console.log(error);

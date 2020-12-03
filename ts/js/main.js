@@ -67,12 +67,12 @@ class Events {
             }
             try {
                 if (name === 'edit' && id.substring(0, 5) === 'edit-') {
-                    this.edit(Number(id.substring(5, id.length)), targe);
+                    this.edit(id.substring(5, id.length), targe);
                     __classPrivateFieldSet(this, _reveal, true);
                 }
                 else if (name === 'trash' && id) {
                     if (!__classPrivateFieldGet(this, _blockEdit)) {
-                        this.delete(Number(id));
+                        this.delete(id);
                     }
                 }
                 else if (name === 'add') {
@@ -99,26 +99,9 @@ class Events {
     }
     write() {
         return __awaiter(this, void 0, void 0, function* () {
-            let num = 0;
-            let block = true;
-            while (block) {
-                block = false;
-                for (const item of labors) {
-                    if (item.id >= num) {
-                        num++;
-                    }
-                }
-                for (const item of labors) {
-                    if (item.id >= num) {
-                        block = true;
-                    }
-                }
-            }
-            let obNew = { text: '', date: __classPrivateFieldGet(this, _stored).getDate(), id: num };
+            let obNew = { text: '', date: __classPrivateFieldGet(this, _stored).getDate(), id: 'undefine' };
             yield __classPrivateFieldGet(this, _stored).write(obNew);
-            __classPrivateFieldGet(this, _print).printNew(obNew);
-            let add = document.getElementById(`edit-${num}`);
-            add.click();
+            location.reload();
         });
     }
     read() {
@@ -134,12 +117,8 @@ class Events {
     }
     delete(id) {
         return __awaiter(this, void 0, void 0, function* () {
-            let div = document.getElementById(`block-in-${id}`);
-            div.remove();
-            yield __classPrivateFieldGet(this, _stored).delete(id, labors).then((res) => { labors = res; })
-                .catch((error) => {
-                console.log(error);
-            });
+            yield __classPrivateFieldGet(this, _stored).delete(id, labors);
+            location.reload();
         });
     }
     edit(id, targe) {

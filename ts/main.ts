@@ -3,7 +3,7 @@
 interface Labor {
     date: string,
     text: string,
-    id: number
+    id: string
 }
 let labors: Labor[] = [];
 
@@ -68,11 +68,11 @@ try {
 
             try {
                 if (name === 'edit' && id.substring(0, 5) === 'edit-') {
-                    this.edit(Number(id.substring(5, id.length)), targe);
+                    this.edit(id.substring(5, id.length), targe);
                     this.#reveal = true;
                 } else if (name === 'trash' && id) {
                     if (!this.#blockEdit) {
-                        this.delete(Number(id));
+                        this.delete(id);
                     }
                 } else if (name === 'add') {
                     if (!this.#blockEdit) {
@@ -102,28 +102,10 @@ try {
 
 
    async write() {
-        let num = 0;
-        let block = true;
-        while (block) {
-            block = false;
-            for (const item of labors) {
-                if (item.id >= num) {
-                    num++;
-                }
-            }
-            for (const item of labors) {
-                if (item.id >= num) {
-                    block = true;
-                }
-            }
 
-        }
-
-        let obNew: Labor = { text: '', date: this.#stored.getDate(), id: num };
+        let obNew: Labor = { text: '', date: this.#stored.getDate(),id:'undefine' };
         await this.#stored.write(obNew);
-        this.#print.printNew(obNew);
-        let add: HTMLInputElement = document.getElementById(`edit-${num}`) as HTMLInputElement;
-        add.click();
+        location.reload();
 
 
     }
@@ -143,17 +125,14 @@ try {
     }
     }
 
-   async delete(id: number) {
-        let div: HTMLInputElement = document.getElementById(`block-in-${id}`) as HTMLInputElement;
-        div.remove();
-        //@ts-ignore
-        await this.#stored.delete(id, labors).then((res)=>{labors = res})
-        .catch((error)=>{console.log(error);
-        });
+   async delete(id: string) {
+
+        await this.#stored.delete(id, labors);
+        location.reload();
     }
 
 
-   async edit(id: number, targe: HTMLInputElement) {
+   async edit(id: string, targe: HTMLInputElement) {
 
         let textarea: HTMLInputElement = document.getElementById(`textarea-${id}`) as HTMLInputElement;
         if (!this.#blockEdit) {

@@ -61,6 +61,7 @@ class Print {
         </div>`;
 
             this.#numberColor++;
+        
         }
 
         ul.innerHTML = lista;
